@@ -120,28 +120,19 @@ const Attendance = () => {
 
 
     // ===================================== [ Storing Absent Students ] =================================================
-    const [attendance, setAttendance] = useState({});
 
-    const [absent_std, setAbsentStd] = useState([]); // absent Student's reg Array 
+    const [absent_std, setAbsentStd] = useState([]); // Absent students' registration numbers
 
-
-    const handleToggle = (reg) => {
-        setAttendance((prev) => {
-            const newAttendance = { ...prev, [reg]: !prev[reg] };
-
-            setAbsentStd((prevAbsent) => {
-                if (!newAttendance[reg]) {
-                    // If unchecked, add to absent_std (if not already present)
-                    return [...new Set([...prevAbsent, reg])];
-                } else {
-                    // If checked, remove from absent_std
-                    return prevAbsent.filter((stdReg) => stdReg !== reg);
-                }
-            });
-
-            return newAttendance;
-        });
+    // Function to mark student as absent
+    const markAbsent = (reg) => {
+        setAbsentStd((prevAbsent) => [...prevAbsent, reg]);
     };
+
+    // Function to mark student as present
+    const markPresent = (reg) => {
+        setAbsentStd((prevAbsent) => prevAbsent.filter((stdReg) => stdReg !== reg));
+    };
+
     // ===================================== [ Storing Absent Students ] =================================================
 
 
@@ -162,6 +153,11 @@ const Attendance = () => {
 
         const course = SelectedCourse.toString();
         const date = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).replace(',', '').toString();
+        const time = new Date().toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        }).replace(' ', ' : ').toString();
         const absent_reg = absent_std.join(", ");
         const no_present_std = (dbStudents.length - absent_std.length).toString();
         const no_absent_std = (absent_std.length).toString();
@@ -182,6 +178,7 @@ const Attendance = () => {
             {
                 course,
                 date,
+                time,
                 absent_reg,
                 no_present_std,
                 no_absent_std,
@@ -202,6 +199,7 @@ const Attendance = () => {
             `*Department:*  DCS\n\n` +
             `*___________________________________________*\n\n` +
             `*Date:* ${date}\n\n` +
+            `*Time:* ${time}\n\n` +
             `*Total Students:* ${total_std}\n` +
             `*Present:* ${no_present_std}\n` +
             `*Absent:* ${no_absent_std}\n\n` +
@@ -222,8 +220,6 @@ const Attendance = () => {
 
 
     // ===================================== [ Calculate Full Attendance ] =================================================
-
-
 
 
 
@@ -255,8 +251,33 @@ const Attendance = () => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     return (
         <>
+
+
+
+
+
             {/* ====================== [ Add Std ]======================= */}
             <div className={`${Style.OverLayer} ${m ? Style.OverLayer_hide : Style.OverLayer_show} flex justify-center items-center`}>
                 <div className={`bg-white p-8 rounded-lg shadow-lg w-[90%] md:w-[500px] ${m ? Style.OverLayer_hide : Style.OverLayer_show}`}>
@@ -293,35 +314,25 @@ const Attendance = () => {
 
 
 
-            {/* ============================================================= */}
+
+
+
+
+
+
+
+
 
             <div className="main flex border-1 rounded-sm border-solid border-gray-400 w-[100%] h-auto">
-
-
-
                 {/* Left side  */}
-                {/* ==================================== */}
-
                 <Sidebar />
 
-                {/* ==================================== */}
-
-
-
-
                 {/* Right side  */}
-                <div className={`right mb-1 flex items-center flex-col border-2 border-solid border-gray-400 border-l-0  w-[100%] lg:w-[79%] h-[730px]  md:h-[540px] overflow-y-scroll p-2  ${m ? 'block' : 'hidden'}`}>
-
-
+                <div className={`right mb-1 flex items-center flex-col border-1 border-solid border-gray-400 border-l-0 w-[100%] lg:w-[79%] h-[730px] md:h-[600px] overflow-y-scroll p-2 ${m ? 'block' : 'hidden'}`}>
                     {/* ========================== [ Header ] ======================================== */}
                     <div className="flex flex-col items-center p-4 bg-blue-50 shadow-lg border-1 border-blue-500 rounded-lg w-full">
-
-                        {/* Heading */}
                         <h1 className="text-3xl font-extrabold text-blue-800 mb-4">SE6A Attendance Portal</h1>
-
-                        {/* Add new Student Button Container */}
                         <div className="flex items-center justify-center w-full mb-6">
-                            {/* Add New Student Button */}
                             <button
                                 onClick={() => SetMove(!m)}
                                 className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition-all focus:ring focus:ring-blue-300 focus:outline-none"
@@ -329,7 +340,6 @@ const Attendance = () => {
                                 + Add New Student
                             </button>
                         </div>
-
                         {/* -------------------------------- */}
 
                         <div className="border border-blue-500 rounded-lg w-full flex flex-wrap md:flex-row justify-center items-center p-4 bg-white shadow-md">
@@ -357,70 +367,46 @@ const Attendance = () => {
                         </div>
 
                         {/* -------------------------------- */}
-
                     </div>
-                    {/* ======================================================================================== */}
-
-
-
-
-
-
-
-
 
                     {/* ================================= [ Attendance Pannel ] ============================================= */}
-                    <div className="w-full p-4 bg-blue-50  border-1 border-red-600 ">
-                        {/* Header Row */}
+                    <div className="w-full p-4 bg-blue-50 border-1 border-red-600">
                         <div className="flex bg-blue-600 text-white font-semibold rounded-t-lg shadow-md">
                             <div className="w-1/5 p-2 text-center border-r border-white">Roll #</div>
                             <div className="w-2/5 md:w-1/5 p-2 text-center border-r border-white">Name</div>
                             <div className="w-2/5 p-2 text-center">Attendance Status</div>
                         </div>
-
-                        {/* Student Rows */}
                         {dbStudents.map((student, i) => (
                             <div key={i} className="flex bg-white even:bg-blue-100 border-b border-blue-300 shadow-sm">
                                 <div className="w-1/5 p-2 text-center border-r border-blue-300">{student.reg}</div>
                                 <div className="w-2/5 md:w-1/5 p-2 text-center border-r border-blue-300">{student.fullName}</div>
-                                {/* ___________________________________________________________________________ */}
-                                <div className="w-2/5 p-2 flex justify-center items-center">
-                                    <label className="relative flex items-center cursor-pointer">
-                                        <input
-                                            type="checkbox"
-                                            // id={`toggle-${student.reg}`}
-                                            className="sr-only"
-                                            checked={attendance[student.reg] || true}
-                                            onChange={() => handleToggle(student.reg)}
-                                        />
-                                        <div className={`w-12 h-6 rounded-full transition-all duration-300 ${attendance[student.reg] ? "bg-blue-500" : "bg-gray-300"}`}></div>
-                                        <div className={`absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform transform ${attendance[student.reg] ? "translate-x-6" : ""}`}></div>
-                                    </label>
+                                <div className="w-2/5 p-2 flex justify-center items-center gap-2">
+                                    {!absent_std.includes(student.reg) ? (
+                                        <div className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-blue-500`} onClick={() => markAbsent(student.reg)}>
+                                            <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-8"></div>
+                                        </div>
+                                    ) : (
+                                        <div className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-red-500`} onClick={() => markPresent(student.reg)}>
+                                            <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-0"></div>
+                                        </div>
+                                    )}
                                 </div>
-                                {/* ___________________________________________________________________________ */}
                             </div>
                         ))}
-
-                        {/* Absent Students List */}
-                        <div className="mt-6 p-4 bg-white shadow-lg rounded-lg">
-                            <h2 className="text-lg font-bold text-blue-700">Absent Students:</h2>
-                            <ul className="list-disc list-inside text-blue-600">
-                                {absent_std.length > 0 ? absent_std.map((reg) => <li key={reg}>{reg}</li>) : <li>No absent students</li>}
-                            </ul>
-                        </div>
                     </div>
 
-                    {/* ================================= [ Attendance Pannel ] ============================================= */}
+
+                    {/* Absent Students List */}
+                    <div className="mt-6 p-4 w-11/12 md:w-10/12 bg-white shadow-lg rounded-lg">
+                        <h2 className="text-lg font-bold text-blue-700">Absent Students:</h2>
+                        <ul className="list-disc list-inside text-blue-600">
+                            {absent_std.length > 0 ? absent_std.map((reg) => <li key={reg}>{reg}</li>) : <li>No absent students</li>}
+                        </ul>
+                    </div>
 
 
 
-
-
-
-
-
-
-                    {/* ================================= [ Button Box ] ============================================= */}
+                    {/* Submission Button */}
                     <div className="button-box">
                         <button
                             onClick={Calculate}
@@ -429,23 +415,25 @@ const Attendance = () => {
                             Submit Record
                         </button>
                     </div>
-                    {/* ================================= [ Button Box ] ============================================= */}
 
-
-
-
-
+                    {/* ================================= [ Attendance Pannel ] ============================================= */}
 
 
 
 
                 </div>
-            </div >
+            </div>
 
-            {/* ============================================================= */}
+
         </>
+    );
 
-    )
+
+
+
+
+
+
 }
 
 export default Attendance

@@ -22,6 +22,7 @@ export async function POST(req) {
     const {
       course,
       date,
+      time,
       absent_reg,
       no_present_std,
       no_absent_std,
@@ -32,6 +33,7 @@ export async function POST(req) {
       data: {
         course,
         date,
+        time,
         absent_reg,
         no_present_std,
         no_absent_std,

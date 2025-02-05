@@ -10,7 +10,7 @@ import SideBar_Style from "./sidebar.module.css";
 import Link from 'next/link';
 // -------------------------------------------------------------------------------
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faHistory, faUserShield, faArrowRight, faBars, faTachometerAlt, faEnvelope, faInfoCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faChalkboardTeacher, faGraduationCap, faArrowLeft, faHistory, faUserGraduate, faUserShield, faArrowRight, faBars, faTachometerAlt, faEnvelope, faInfoCircle, faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 // -------------------------------------------------------------------------------
 
 
@@ -22,7 +22,7 @@ const Sidebar = () => {
         <>
             {/* ============================== */}
             <div
-                className={`border-1 border-red-600 hidden md:block dashboard h-screen w-[20%] bg-[#152259]  flex-col justify-start items-center ${menu ? SideBar_Style.show : SideBar_Style.hide}`}
+                className={`border-1 border-red-600 hidden md:block dashboard h-lvh w-[20%] bg-[#152259]  flex-col justify-start items-center ${menu ? SideBar_Style.show : SideBar_Style.hide}`}
             >
 
                 {/* Logo Section */}
@@ -88,7 +88,7 @@ const Sidebar = () => {
                     {/* ======================================= */}
                     <div className="rounded-md menu-item w-full flex items-center py-2 hover:bg-blue-400 cursor-pointer mt-1">
 
-                        <FontAwesomeIcon icon={faUserShield} className='ml-4 text-slate-200' />
+                        <FontAwesomeIcon icon={faUserGraduate} className='ml-4 text-slate-200' />
 
                         <span className="text-[#FFFFFF] ml-2 text-sm sm:text-xs">
                             <Link href='/manageStudents'>
@@ -99,7 +99,7 @@ const Sidebar = () => {
                     {/* ======================================= */}
                     <div className="rounded-md menu-item w-full flex items-center py-2 hover:bg-blue-400 cursor-pointer mt-1">
 
-                        <FontAwesomeIcon icon={faUserShield} className='ml-4 text-slate-200' />
+                        <FontAwesomeIcon icon={faBook} className='ml-4 text-slate-200' />
 
                         <span className="text-[#FFFFFF] ml-2 text-sm sm:text-xs">
                             <Link href='/manageCourses'>

@@ -40,6 +40,7 @@ model attendance {
   id             String @id @default(uuid())
   course         String
   date           String
+  time           String
   absent_reg     String
   no_present_std String
   no_absent_std  String

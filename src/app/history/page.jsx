@@ -114,6 +114,7 @@ const Attendance = () => {
                             <tr className="bg-blue-500 text-white text-lg">
                                 <th className="p-3 border">Course</th>
                                 <th className="p-3 border">Date</th>
+                                <th className="p-3 border">Time</th>
                                 <th className="p-3 border">Absent Reg</th>
                                 <th className="p-3 border">Present</th>
                                 <th className="p-3 border">Absent</th>
@@ -129,6 +130,7 @@ const Attendance = () => {
                                     >
                                         <td className="p-3 border">{record.course}</td>
                                         <td className="p-3 border">{record.date}</td>
+                                        <td className="p-3 border">{record.time}</td>
                                         <td className="p-3 border">{record.absent_reg}</td>
                                         <td className="p-3 border">{record.no_present_std}</td>
                                         <td className="p-3 border">{record.no_absent_std}</td>
