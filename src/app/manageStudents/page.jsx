@@ -109,8 +109,8 @@ export default function AdminPanel() {
             </div>
 
             {/* Students Table */}
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-xl font-semibold mb-4 text-blue-600">Student List</h2>
+            <div className="bg-white p-6 rounded-lg shadow-md mb-6  overflow-y-scroll">
+                <h2 className="text-xl font-semibold mb-4 text-blue-600">Student List ({students.length})</h2>
                 <table className="w-full table-auto border-collapse border border-gray-200">
                     <thead className="bg-blue-100">
                         <tr>
@@ -120,37 +120,38 @@ export default function AdminPanel() {
                         </tr>
                     </thead>
                     <tbody>
-                        {students.map((student) => (
-                            <tr key={student.reg}>
-                                <td className="border px-4 py-2">{student.reg}</td>
-                                <td className="border px-4 py-2">{student.fullName}</td>
-                                <td className="border px-4 py-2 flex justify-center md:gap-3 gap-1">
-                                    {/* Edit Button */}
-                                    <button
-                                        className="w-[60px] md:w-[100px]  text-center bg-blue-600 text-white p-1 rounded-md shadow-md hover:bg-blue-700 transition duration-200"
-                                        onClick={() => {
-                                            setFullName(student.fullName);
-                                            setReg(student.reg);
-                                            setEditMode(true);
-                                        }}
-                                    >
+                        {[...students]
+                            .sort((a, b) => a.reg.localeCompare(b.reg))
+                            .map((student) => (
+                                <tr key={student.reg}>
+                                    <td className="border px-4 py-2">{student.reg}</td>
+                                    <td className="border px-4 py-2">{student.fullName}</td>
+                                    <td className="border px-4 py-2 flex justify-center md:gap-3 gap-1">
+                                        {/* Edit Button */}
+                                        <button
+                                            className="w-[60px] md:w-[100px] text-center bg-blue-600 text-white p-1 rounded-md shadow-md hover:bg-blue-700 transition duration-200"
+                                            onClick={() => {
+                                                setFullName(student.fullName);
+                                                setReg(student.reg);
+                                                setEditMode(true);
+                                            }}
+                                        >
+                                            Edit
+                                        </button>
 
-                                        Edit
-                                    </button>
+                                        {/* Delete Button */}
+                                        <button
+                                            className="w-[60px] md:w-[100px] text-center bg-red-600 text-white p-1 rounded-md shadow-md hover:bg-red-700 transition duration-200"
+                                            onClick={() => {
+                                                handleDeleteStudent(student.reg);
+                                            }}
+                                        >
+                                            Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
 
-                                    {/* Delete Button */}
-                                    <button
-                                        className="w-[60px] md:w-[100px] text-center  bg-red-600 text-white p-1 rounded-md shadow-md hover:bg-red-700 transition duration-200"
-                                        onClick={() => {
-                                            handleDeleteStudent(student.reg);
-                                        }}
-                                    >
-
-                                        Delete
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
                     </tbody>
                 </table>
             </div>

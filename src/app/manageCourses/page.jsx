@@ -92,8 +92,8 @@ export default function AdminPanel() {
             </div>
 
             {/* Courses Table */}
-            <div className="bg-white p-6 rounded-lg shadow-md mb-6">
-                <h2 className="text-xl font-semibold mb-4 text-blue-600">Course List</h2>
+            <div className="bg-white p-6 rounded-lg shadow-md mb-6 overflow-y-scroll">
+                <h2 className="text-xl font-semibold mb-4 text-blue-600">Course List  ({courses.length})</h2>
                 <table className="w-full table-auto border-collapse border border-gray-200">
                     <thead className="bg-blue-100">
                         <tr>

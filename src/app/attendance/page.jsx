@@ -188,16 +188,17 @@ const Attendance = () => {
         Swal.fire('Success', 'Attendance Submitted', 'success');
         // ___________________________________________________
 
-        const phoneNumber = "+923419385624";
+        // const phoneNumber = "+923419385624"; // Frasat Ali Gujjar
+        const phoneNumber = "+923066433202"; // CR
 
         const message = encodeURIComponent(
             `*Asslam-o-Alaikum Sir !*\n\n` +
-            `*___________________________________________*\n\n` +
-            `*Name:*            Cr.Awais Butt\n` +
+            `*________________________*\n\n` +
+            `*Name:*             Cr.Awais Butt\n` +
             `*Section:*          SE-6A\n` +
             `*Batch:*             2022\n` +
             `*Department:*  DCS\n\n` +
-            `*___________________________________________*\n\n` +
+            `*________________________*\n\n` +
             `*Date:* ${date}\n\n` +
             `*Time:* ${time}\n\n` +
             `*Total Students:* ${total_std}\n` +
@@ -207,7 +208,7 @@ const Attendance = () => {
             `${course}\n\n` +
             `*Absent Students:*\n` +
             `${absent_reg}\n\n` +
-            `*___________________________________________*\n\n` +
+            `*________________________*\n\n` +
             `*Jazakallah!*`
         );
 
@@ -323,7 +324,7 @@ const Attendance = () => {
 
 
 
-            <div className="main flex border-1 rounded-sm border-solid border-gray-400 w-[100%] h-auto">
+            <div className="main flex border-1 rounded-sm border-solid border-gray-400 w-[100%] h-auto overflow-x-scroll md:overflow-visible">
                 {/* Left side  */}
                 <Sidebar />
 
@@ -373,26 +374,34 @@ const Attendance = () => {
                     <div className="w-full p-4 bg-blue-50 border-1 border-red-600">
                         <div className="flex bg-blue-600 text-white font-semibold rounded-t-lg shadow-md">
                             <div className="w-1/5 p-2 text-center border-r border-white">Roll #</div>
-                            <div className="w-2/5 md:w-1/5 p-2 text-center border-r border-white">Name</div>
+                            <div className="w-2/5 p-2 text-center border-r border-white">Name ({dbStudents.length})</div>
                             <div className="w-2/5 p-2 text-center">Attendance Status</div>
                         </div>
-                        {dbStudents.map((student, i) => (
-                            <div key={i} className="flex bg-white even:bg-blue-100 border-b border-blue-300 shadow-sm">
-                                <div className="w-1/5 p-2 text-center border-r border-blue-300">{student.reg}</div>
-                                <div className="w-2/5 md:w-1/5 p-2 text-center border-r border-blue-300">{student.fullName}</div>
-                                <div className="w-2/5 p-2 flex justify-center items-center gap-2">
-                                    {!absent_std.includes(student.reg) ? (
-                                        <div className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-blue-500`} onClick={() => markAbsent(student.reg)}>
-                                            <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-8"></div>
-                                        </div>
-                                    ) : (
-                                        <div className={`w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-red-500`} onClick={() => markPresent(student.reg)}>
-                                            <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-0"></div>
-                                        </div>
-                                    )}
+                        {[...dbStudents]
+                            .sort((a, b) => a.reg.localeCompare(b.reg))
+                            .map((student, i) => (
+                                <div key={i} className="flex bg-white even:bg-blue-100 border-b border-blue-300 shadow-sm">
+                                    <div className="w-1/5 p-2 text-center border-r border-blue-300">{student.reg}</div>
+                                    <div className="w-2/5 p-2 text-center border-r border-blue-300">{student.fullName}</div>
+                                    <div className="w-2/5 p-2 flex justify-center items-center gap-2">
+                                        {!absent_std.includes(student.reg) ? (
+                                            <div
+                                                className="w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-blue-500"
+                                                onClick={() => markAbsent(student.reg)}
+                                            >
+                                                <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-8"></div>
+                                            </div>
+                                        ) : (
+                                            <div
+                                                className="w-16 h-8 flex items-center rounded-full p-1 cursor-pointer transition-all duration-300 bg-red-500"
+                                                onClick={() => markPresent(student.reg)}
+                                            >
+                                                <div className="w-6 h-6 bg-white rounded-full shadow-md transform transition-all duration-300 translate-x-0"></div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
                     </div>
 
 
